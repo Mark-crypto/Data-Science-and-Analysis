@@ -85,3 +85,23 @@ sum(numbers)
 prod(numbers)
 sort(numbers, decreasing = T)
 rev(numbers)
+
+#Factors
+
+j <- factor(c("male", "male", "female", "male", "female", "female"))
+table(j)
+
+#Maths functions
+z <- c(23.45, -417,2.0567, 15.00, 409321)
+floor(z)
+ceiling(z)
+abs(z)
+exp(36)
+sqrt(1000000)
+log(144, base = 12)
+factorial(121)
+
+a <- rnorm(5, mean = 10, sd = 1)
+a
+
+
