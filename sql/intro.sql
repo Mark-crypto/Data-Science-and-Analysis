@@ -1,4 +1,4 @@
---  tables - users, orders, products, categories, suppliers, shippers, employees, customers
+--  tables - users, orders, products, categories, suppliers, shippers, employees, newsletter subscribers
 --  columns - id, name, email, phone, address, city, state, zip, country, created_at, updated_at
 --  foreign keys - user_id, order_id, product_id, category_id, supplier_id, shipper_id, employee_id, customer_id
 --  indexes - user_id, order_id, product_id, category_id, supplier_id, shipper_id, employee_id, customer_id
@@ -100,3 +100,206 @@ VALUES
 (28, '2024-02-28 21:30:00', '2024-03-02 21:30:00', 'shipped'),
 (29, '2024-02-29 22:15:00', '2024-03-03 22:15:00', 'delivered'),
 (30, '2024-03-01 23:00:00', '2024-03-04 23:00:00', 'pending');
+
+--  products
+CREATE TABLE PRODUCTS(
+    product_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    description TEXT NOT NULL,
+    price DECIMAL(10,2) NOT NULL,
+    category_id INT,
+    supplier_id INT,
+    status ENUM('in_stock', 'out_of_stock') NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+)
+
+-- Dummy dataINSERT INTO PRODUCTS (name, description, price, category_id, supplier_id, status) 
+VALUES
+('Laptop', 'High-performance laptop with 16GB RAM and 512GB SSD', 1200.00, 1, 1, 'in_stock'),
+('Smartphone', 'Latest smartphone with AMOLED display and 5G', 850.00, 2, 2, 'in_stock'),
+('Wireless Headphones', 'Noise-canceling wireless headphones', 150.00, 3, 3, 'in_stock'),
+('Gaming Console', 'Next-gen gaming console with 1TB storage', 500.00, 4, 4, 'out_of_stock'),
+('Smartwatch', 'Waterproof smartwatch with health tracking', 200.00, 5, 5, 'in_stock'),
+('Mechanical Keyboard', 'RGB mechanical keyboard for gaming', 120.00, 6, 6, 'in_stock'),
+('Monitor', '4K UHD 27-inch monitor with HDR support', 300.00, 7, 7, 'in_stock'),
+('External Hard Drive', '2TB external HDD for data storage', 80.00, 8, 8, 'in_stock'),
+('Bluetooth Speaker', 'Portable speaker with deep bass', 90.00, 9, 9, 'out_of_stock'),
+('Smart TV', '55-inch 4K Smart TV with streaming apps', 700.00, 10, 10, 'in_stock'),
+('Router', 'Wi-Fi 6 router with high-speed connectivity', 130.00, 11, 11, 'in_stock'),
+('Tablet', '10-inch Android tablet with stylus support', 300.00, 12, 12, 'in_stock'),
+('Wireless Mouse', 'Ergonomic wireless mouse with long battery life', 50.00, 13, 13, 'in_stock'),
+('Electric Kettle', '1.7L electric kettle with auto shut-off', 40.00, 14, 14, 'out_of_stock'),
+('Air Fryer', '4L digital air fryer with adjustable temperature', 100.00, 15, 15, 'in_stock'),
+('Refrigerator', 'Energy-efficient refrigerator with large capacity', 800.00, 16, 16, 'in_stock'),
+('Microwave Oven', 'Convection microwave oven with grill function', 250.00, 17, 17, 'out_of_stock'),
+('Coffee Maker', 'Automatic coffee machine with milk frother', 180.00, 18, 18, 'in_stock'),
+('Gaming Chair', 'Ergonomic gaming chair with lumbar support', 220.00, 19, 19, 'in_stock'),
+('Portable AC', 'Compact portable air conditioner for rooms', 400.00, 20, 20, 'in_stock'),
+('Fitness Tracker', 'Wearable fitness tracker with heart rate monitor', 60.00, 21, 21, 'out_of_stock'),
+('Dash Cam', 'Car dash camera with night vision and loop recording', 110.00, 22, 22, 'in_stock'),
+('VR Headset', 'Virtual reality headset with high-resolution display', 350.00, 23, 23, 'in_stock'),
+('Robot Vacuum', 'Smart robot vacuum cleaner with mapping technology', 500.00, 24, 24, 'in_stock'),
+('Security Camera', 'Wireless security camera with motion detection', 90.00, 25, 25, 'in_stock'),
+('Power Bank', '20000mAh power bank with fast charging', 45.00, 26, 26, 'out_of_stock'),
+('E-Reader', 'Lightweight e-reader with glare-free display', 130.00, 27, 27, 'in_stock'),
+('Smart Light Bulb', 'Wi-Fi smart bulb with color-changing features', 25.00, 28, 28, 'in_stock'),
+('Graphics Card', 'High-performance graphics card for gaming', 600.00, 29, 29, 'out_of_stock'),
+('Electric Toothbrush', 'Rechargeable electric toothbrush with multiple modes', 75.00, 30, 30, 'in_stock');
+
+--  categories
+CREATE TABLE categories(
+    category_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    description TEXT NOT NULL,
+    CREATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+)
+--  dummy data
+INSERT INTO categories (name, description) VALUES
+('Electronics', 'Devices and gadgets including laptops, smartphones, and accessories'),
+('Home Appliances', 'Kitchen and household electrical appliances'),
+('Gaming', 'Gaming consoles, accessories, and peripherals'),
+('Furniture', 'Home and office furniture'),
+('Fashion', 'Clothing, footwear, and accessories'),
+('Health & Beauty', 'Skincare, personal care, and wellness products'),
+('Automotive', 'Car accessories and spare parts'),
+('Sports & Outdoors', 'Sports equipment and outdoor gear'),
+('Books', 'Fiction, non-fiction, and educational books'),
+('Toys & Games', 'Kids toys, board games, and collectibles'),
+('Office Supplies', 'Stationery, printers, and office furniture'),
+('Groceries', 'Food, beverages, and household essentials'),
+('Music & Audio', 'Musical instruments, speakers, and headphones'),
+('Cameras & Photography', 'Cameras, lenses, and photography accessories'),
+('Pet Supplies', 'Pet food, grooming, and accessories');
+
+--  suppliers
+CREATE TABLE suppliers(
+    supplier_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(200) UNIQUE NOT NULL,
+    phone VARCHAR(12) UNIQUE NOT NULL,
+    products_supplies TEXT NOT NULL,
+    address VARCHAR(200) NOT NULL,
+    city VARCHAR(50) NOT NULL,
+    state VARCHAR(50) NOT NULL,
+    zip VARCHAR(10) NOT NULL,
+    country VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+)
+--  dummy data
+INSERT INTO suppliers (name, email, phone, products_supplies, address, city, state, zip, country) VALUES
+('TechWorld Distributors', 'contact@techworld.com', '1234567890', 'Laptops, Smartphones, Accessories', '123 Tech Street', 'New York', 'NY', '10001', 'USA'),
+('Home Essentials Ltd', 'sales@homeessentials.com', '9876543210', 'Kitchen Appliances, Air Conditioners', '456 Home Ave', 'Los Angeles', 'CA', '90001', 'USA'),
+('GameGear Supplies', 'support@gamegear.com', '1122334455', 'Gaming Consoles, Controllers, Keyboards', '789 Gaming Blvd', 'San Francisco', 'CA', '94102', 'USA'),
+('Furniture Masters', 'info@furnituremasters.com', '2233445566', 'Office Chairs, Tables, Sofas', '101 Office Lane', 'Chicago', 'IL', '60601', 'USA'),
+('Fashion Trends Inc.', 'hello@fashiontrends.com', '3344556677', 'Clothing, Footwear, Accessories', '202 Fashion Street', 'Miami', 'FL', '33101', 'USA'),
+('Health & Beauty Corp', 'contact@hbcorp.com', '4455667788', 'Skincare, Personal Care, Cosmetics', '303 Wellness Drive', 'Houston', 'TX', '77001', 'USA'),
+('AutoParts Depot', 'service@autoparts.com', '5566778899', 'Car Accessories, Spare Parts', '404 Auto Road', 'Detroit', 'MI', '48201', 'USA'),
+('Outdoor Gear Hub', 'sales@outdoorgear.com', '6677889900', 'Camping Gear, Bicycles, Fishing Equipment', '505 Adventure Ave', 'Denver', 'CO', '80201', 'USA'),
+('Book Haven', 'hello@bookhaven.com', '7788990011', 'Fiction, Non-fiction, Textbooks', '606 Literature St', 'Seattle', 'WA', '98101', 'USA'),
+('Toy Kingdom', 'toys@toykingdom.com', '8899001122', 'Kids Toys, Board Games, Collectibles', '707 Fun Lane', 'Orlando', 'FL', '32801', 'USA'),
+('OfficePro Supplies', 'contact@officepro.com', '9900112233', 'Printers, Stationery, Office Desks', '808 Work Ave', 'Boston', 'MA', '02101', 'USA'),
+('Grocery Wholesale', 'orders@grocerywholesale.com', '1000112233', 'Food, Beverages, Household Essentials', '909 Market St', 'Dallas', 'TX', '75201', 'USA'),
+('Music Central', 'support@musiccentral.com', '1100223344', 'Guitars, Headphones, Speakers', '111 Melody Drive', 'Nashville', 'TN', '37201', 'USA'),
+('Camera Pros', 'sales@camerapros.com', '2200334455', 'Cameras, Lenses, Tripods', '121 Photography Ave', 'San Diego', 'CA', '92101', 'USA'),
+('Pet Haven', 'pets@pethaven.com', '3300445566', 'Pet Food, Grooming Products, Accessories', '131 Pet Street', 'Phoenix', 'AZ', '85001', 'USA');
+
+--  shippers
+CREATE TABLE shippers(
+    shipper_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(200) UNIQUE NOT NULL,
+    phone VARCHAR(12) UNIQUE NOT NULL,
+    address VARCHAR(200) NOT NULL,
+    city VARCHAR(50) NOT NULL,
+    state VARCHAR(50) NOT NULL,
+    zip VARCHAR(10) NOT NULL,
+    country VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+)
+
+--  dummy data
+INSERT INTO shippers (name, email, phone, address, city, state, zip, country) VALUES
+('FastTrack Logistics', 'support@fasttrack.com', '1234567890', '123 Express Lane', 'New York', 'NY', '10001', 'USA'),
+('SwiftShip Couriers', 'info@swiftship.com', '9876543210', '456 Speed Blvd', 'Los Angeles', 'CA', '90001', 'USA'),
+('Global Freight', 'contact@globalfreight.com', '1122334455', '789 Cargo Street', 'San Francisco', 'CA', '94102', 'USA'),
+('Rapid Movers', 'service@rapidmovers.com', '2233445566', '101 Quick Drive', 'Chicago', 'IL', '60601', 'USA'),
+('Prime Express', 'orders@primeexpress.com', '3344556677', '202 Fast Avenue', 'Miami', 'FL', '33101', 'USA'),
+('Eagle Logistics', 'hello@eaglelogistics.com', '4455667788', '303 Wings Street', 'Houston', 'TX', '77001', 'USA'),
+('Titan Shipping', 'support@titanshipping.com', '5566778899', '404 Titan Road', 'Detroit', 'MI', '48201', 'USA'),
+('Skyline Couriers', 'sales@skylinecouriers.com', '6677889900', '505 Skyline Ave', 'Denver', 'CO', '80201', 'USA'),
+('OceanWave Transport', 'contact@oceanwave.com', '7788990011', '606 Harbor Lane', 'Seattle', 'WA', '98101', 'USA'),
+('Pioneer Freight', 'help@pioneerfreight.com', '8899001122', '707 Trailblazer St', 'Orlando', 'FL', '32801', 'USA');
+
+--  employees
+CREATE TABLE employees(
+    employee_id INT PRIMARY KEY AUTO_INCREMENT,
+    employee_number VARCHAR(50) UNIQUE NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(200) UNIQUE NOT NULL,
+    phone VARCHAR(12) UNIQUE NOT NULL,
+    role VARCHAR(50) NOT NULL,
+    date_enrolled DATE NOT NULL,
+    salary DECIMAL(10,2) NOT NULL,
+    branch VARCHAR(50) NOT NULL,
+    national_id VARCHAR(50) UNIQUE NOT NULL,
+    address VARCHAR(200) NOT NULL,
+    city VARCHAR(50) NOT NULL,
+    state VARCHAR(50) NOT NULL,
+    zip VARCHAR(10) NOT NULL,
+    country VARCHAR(50) NOT NULL,
+    status ENUM('active' ,'inactive', 'on_leave') NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+)
+
+--  dummy data
+INSERT INTO employees (employee_number, name, email, phone, role, date_enrolled, salary, branch, national_id, address, city, state, zip, country, status) VALUES
+('EMP001', 'John Doe', 'johndoe@email.com', '1234567890', 'Software Engineer', '2022-05-15', 75000.00, 'New York', '100001', '123 Main St', 'New York', 'NY', '10001', 'USA', 'active'),
+('EMP002', 'Jane Smith', 'janesmith@email.com', '9876543210', 'Project Manager', '2021-08-21', 90000.00, 'Los Angeles', '100002', '456 Elm St', 'Los Angeles', 'CA', '90001', 'USA', 'active'),
+('EMP003', 'Mike Johnson', 'mikejohnson@email.com', '1122334455', 'HR Manager', '2020-07-10', 85000.00, 'San Francisco', '100003', '789 Oak St', 'San Francisco', 'CA', '94102', 'USA', 'active'),
+('EMP004', 'Alice Brown', 'alicebrown@email.com', '2233445566', 'Data Analyst', '2019-09-05', 72000.00, 'Chicago', '100004', '101 Pine St', 'Chicago', 'IL', '60601', 'USA', 'on_leave'),
+('EMP005', 'David Wilson', 'davidwilson@email.com', '3344556677', 'IT Support', '2023-02-18', 65000.00, 'Miami', '100005', '202 Maple St', 'Miami', 'FL', '33101', 'USA', 'active'),
+('EMP006', 'Emma Davis', 'emmadavis@email.com', '4455667788', 'Marketing Specialist', '2022-11-30', 70000.00, 'Houston', '100006', '303 Cedar St', 'Houston', 'TX', '77001', 'USA', 'inactive'),
+('EMP007', 'Robert Miller', 'robertmiller@email.com', '5566778899', 'Finance Officer', '2021-06-22', 88000.00, 'Detroit', '100007', '404 Birch St', 'Detroit', 'MI', '48201', 'USA', 'active'),
+('EMP008', 'Sophia Martinez', 'sophiamartinez@email.com', '6677889900', 'UX Designer', '2020-04-14', 77000.00, 'Denver', '100008', '505 Aspen St', 'Denver', 'CO', '80201', 'USA', 'on_leave'),
+('EMP009', 'James Anderson', 'jamesanderson@email.com', '7788990011', 'Network Engineer', '2019-12-09', 82000.00, 'Seattle', '100009', '606 Spruce St', 'Seattle', 'WA', '98101', 'USA', 'active'),
+('EMP010', 'Olivia White', 'oliviawhite@email.com', '8899001122', 'Customer Support', '2023-03-28', 60000.00, 'Orlando', '100010', '707 Palm St', 'Orlando', 'FL', '32801', 'USA', 'inactive'),
+('EMP011', 'William Thomas', 'williamthomas@email.com', '9900112233', 'Cybersecurity Analyst', '2022-08-16', 86000.00, 'Boston', '100011', '808 Redwood St', 'Boston', 'MA', '02101', 'USA', 'active'),
+('EMP012', 'Isabella Moore', 'isabellamoore@email.com', '1000112233', 'Business Analyst', '2021-10-04', 81000.00, 'Dallas', '100012', '909 Sycamore St', 'Dallas', 'TX', '75201', 'USA', 'on_leave'),
+('EMP013', 'Liam Taylor', 'liamtaylor@email.com', '1100223344', 'Sales Executive', '2020-01-19', 75000.00, 'Nashville', '100013', '111 Beech St', 'Nashville', 'TN', '37201', 'USA', 'active'),
+('EMP014', 'Mia Hernandez', 'miahernandez@email.com', '2200334455', 'Operations Manager', '2018-05-07', 95000.00, 'San Diego', '100014', '121 Poplar St', 'San Diego', 'CA', '92101', 'USA', 'inactive'),
+('EMP015', 'Benjamin Lewis', 'benjaminlewis@email.com', '3300445566', 'Supply Chain Manager', '2017-03-12', 97000.00, 'Phoenix', '100015', '131 Magnolia St', 'Phoenix', 'AZ', '85001', 'USA', 'active');
+
+---  newsletter subscribers
+CREATE TABLE newsletter_subscribers(
+    subscriber_id INT PRIMARY KEY AUTO_INCREMENT,
+    email VARCHAR(200) UNIQUE NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    subscribed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)  
+
+INSERT INTO newsletter_subscribers (email, name) VALUES
+('alice.johnson@email.com', 'Alice Johnson'),
+('bob.smith@email.com', 'Bob Smith'),
+('carla.doe@email.com', 'Carla Doe'),
+('daniel.white@email.com', 'Daniel White'),
+('emma.taylor@email.com', 'Emma Taylor'),
+('frank.miller@email.com', 'Frank Miller'),
+('grace.brown@email.com', 'Grace Brown'),
+('henry.wilson@email.com', 'Henry Wilson'),
+('isabella.davis@email.com', 'Isabella Davis'),
+('jack.thomas@email.com', 'Jack Thomas'),
+('kate.hernandez@email.com', 'Kate Hernandez'),
+('leo.martinez@email.com', 'Leo Martinez'),
+('mia.clark@email.com', 'Mia Clark'),
+('noah.rodriguez@email.com', 'Noah Rodriguez'),
+('olivia.lopez@email.com', 'Olivia Lopez'),
+('peter.scott@email.com', 'Peter Scott'),
+('quinn.green@email.com', 'Quinn Green'),
+('ryan.adams@email.com', 'Ryan Adams'),
+('sophia.hill@email.com', 'Sophia Hill'),
+('tyler.baker@email.com', 'Tyler Baker');
