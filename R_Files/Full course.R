@@ -104,4 +104,18 @@ factorial(121)
 a <- rnorm(5, mean = 10, sd = 1)
 a
 
+# Matrix
+mat <- matrix(c(1,2,3,4,5,6,7,8,9),nrow = 3, ncol = 3)
+mat
+dim(mat)
+nrow(mat)
+ncol(mat)
 
+m <- diag(5,3,3)
+m
+
+y<- matrix(1:9, nrow=3, ncol=3, byrow = T )
+y
+rownames(y) <- c("men","women","children")
+colnames(y) <- c("mon", "tue","wed")
+y
