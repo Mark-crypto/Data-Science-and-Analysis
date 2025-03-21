@@ -119,3 +119,22 @@ y
 rownames(y) <- c("men","women","children")
 colnames(y) <- c("mon", "tue","wed")
 y
+
+rbind(mat,y)
+cbind(mat,y)
+
+genders <- factor(c('male','female', 'female','male','male', 'female'))
+table(genders)
+
+#Data frames
+id <- c(001,002,003)
+names <- c ("Susan", "Cindy", "John")
+marks <- c(309,401,442)
+
+students <- data.frame(id,names,marks)
+students
+
+install.packages("tinytex")
+
+# Install LaTeX distribution
+tinytex::install_tinytex()

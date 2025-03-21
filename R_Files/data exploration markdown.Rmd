@@ -1,0 +1,104 @@
+---
+title: "Data Exploration and Visualization with Gapminder"
+author: "Mark"
+date: "`r Sys.Date()`"
+output:
+  word_document: default
+  html_document: default
+  pdf_document: default
+---
+
+# Introduction
+This project explores the `gapminder` dataset using **R** and **tidyverse**. We perform **data cleaning, descriptive analysis, and visualizations**, along with statistical tests such as **t-tests** and **ANOVA**.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Installing and Loading Packages
+```{r install-packages, eval=FALSE}
+install.packages("rmarkdown")
+install.packages("shiny")
+```
+
+```{r load-packages}
+library(ggplot2)
+library(tidyverse)
+library(gapminder)
+```
+
+# Data Exploration
+```{r data-exploration}
+head(gapminder)
+tail(gapminder)
+glimpse(gapminder)
+summary(gapminder)
+unique(gapminder$country)
+class(gapminder$pop)
+```
+
+# Data Cleaning
+```{r data-cleaning}
+noMissingData <- drop_na(gapminder)
+missingData <- !complete.cases(gapminder)
+gapminder[missingData,]
+
+cleaned_data <- gapminder %>% 
+  select(country, pop, year) %>% 
+  rename(population = pop) %>% 
+  filter(year > 2000 & population > 10000000) %>% 
+  arrange(year)
+head(cleaned_data)
+```
+
+```{r reshape-data}
+sampleData <- select(gapminder, country, pop, year)
+yearly_data <- sampleData %>% 
+  pivot_wider(names_from = year, values_from = pop)
+View(yearly_data)
+```
+
+# Descriptive Statistics
+```{r descriptive-statistics}
+population <- gapminder$pop
+summary(population)
+population <- population / 1000000
+summary(population) 
+```
+
+# Data Visualization
+## Bar Chart of Continents
+```{r bar-chart}
+ggplot(data=gapminder, aes(x=continent)) + 
+  geom_bar(fill = "steelblue") + 
+  labs(title = "Continents", x="Habitable Continents")
+```
+
+## Scatter Plot of Population (African Countries)
+```{r scatter-plot}
+gapminder %>% 
+  filter(year > 2006 & continent == "Africa" & pop > 40000000) %>% 
+  ggplot(aes(x = country, y = pop/1000000)) + 
+  geom_point(size=5, alpha = 0.5) +
+  labs(title = "Population of African Countries", y="Population (millions)")
+```
+
+# Statistical Analysis
+## T-test (Life Expectancy in Americas vs Oceania)
+```{r t-test}
+gapminder %>% 
+  filter(continent %in% c("Americas", "Oceania")) %>%  
+  t.test(lifeExp ~ continent, data = .)
+```
+
+## ANOVA (Life Expectancy Across Continents)
+```{r anova}
+gapminder %>% 
+  filter(year == 2007, continent %in% c("Asia", "Africa", "Americas")) %>% 
+  aov(lifeExp ~ continent, data = .) %>%
+  summary()
+```
+
+# Conclusion
+This project explored the `gapminder` dataset, cleaned the data, visualized key insights, and performed statistical tests. The findings suggest patterns in population distribution and life expectancy differences among continents.
+

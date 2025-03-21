@@ -1,0 +1,512 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Data Exploration and Visualization with Gapminder},
+  pdfauthor={Mark},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Data Exploration and Visualization with Gapminder}
+\author{Mark}
+\date{2025-03-20}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}\label{introduction}
+
+This project explores the \texttt{gapminder} dataset using \textbf{R}
+and \textbf{tidyverse}. We perform \textbf{data cleaning, descriptive
+analysis, and visualizations}, along with statistical tests such as
+\textbf{t-tests} and \textbf{ANOVA}.
+
+\section{Installing and Loading
+Packages}\label{installing-and-loading-packages}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{install.packages}\NormalTok{(}\StringTok{"rmarkdown"}\NormalTok{)}
+\FunctionTok{install.packages}\NormalTok{(}\StringTok{"shiny"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(ggplot2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'ggplot2' was built under R version 4.4.2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(tidyverse)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'tidyverse' was built under R version 4.4.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'tibble' was built under R version 4.4.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'tidyr' was built under R version 4.4.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'readr' was built under R version 4.4.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'purrr' was built under R version 4.4.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'dplyr' was built under R version 4.4.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'stringr' was built under R version 4.4.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'forcats' was built under R version 4.4.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'lubridate' was built under R version 4.4.2
+\end{verbatim}
+
+\begin{verbatim}
+## -- Attaching core tidyverse packages ------------------------ tidyverse 2.0.0 --
+## v dplyr     1.1.4     v readr     2.1.5
+## v forcats   1.0.0     v stringr   1.5.1
+## v lubridate 1.9.4     v tibble    3.2.1
+## v purrr     1.0.4     v tidyr     1.3.1
+## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()
+## i Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(gapminder)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'gapminder' was built under R version 4.4.2
+\end{verbatim}
+
+\section{Data Exploration}\label{data-exploration}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{head}\NormalTok{(gapminder)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 6 x 6
+##   country     continent  year lifeExp      pop gdpPercap
+##   <fct>       <fct>     <int>   <dbl>    <int>     <dbl>
+## 1 Afghanistan Asia       1952    28.8  8425333      779.
+## 2 Afghanistan Asia       1957    30.3  9240934      821.
+## 3 Afghanistan Asia       1962    32.0 10267083      853.
+## 4 Afghanistan Asia       1967    34.0 11537966      836.
+## 5 Afghanistan Asia       1972    36.1 13079460      740.
+## 6 Afghanistan Asia       1977    38.4 14880372      786.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{tail}\NormalTok{(gapminder)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 6 x 6
+##   country  continent  year lifeExp      pop gdpPercap
+##   <fct>    <fct>     <int>   <dbl>    <int>     <dbl>
+## 1 Zimbabwe Africa     1982    60.4  7636524      789.
+## 2 Zimbabwe Africa     1987    62.4  9216418      706.
+## 3 Zimbabwe Africa     1992    60.4 10704340      693.
+## 4 Zimbabwe Africa     1997    46.8 11404948      792.
+## 5 Zimbabwe Africa     2002    40.0 11926563      672.
+## 6 Zimbabwe Africa     2007    43.5 12311143      470.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{glimpse}\NormalTok{(gapminder)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Rows: 1,704
+## Columns: 6
+## $ country   <fct> "Afghanistan", "Afghanistan", "Afghanistan", "Afghanistan", ~
+## $ continent <fct> Asia, Asia, Asia, Asia, Asia, Asia, Asia, Asia, Asia, Asia, ~
+## $ year      <int> 1952, 1957, 1962, 1967, 1972, 1977, 1982, 1987, 1992, 1997, ~
+## $ lifeExp   <dbl> 28.801, 30.332, 31.997, 34.020, 36.088, 38.438, 39.854, 40.8~
+## $ pop       <int> 8425333, 9240934, 10267083, 11537966, 13079460, 14880372, 12~
+## $ gdpPercap <dbl> 779.4453, 820.8530, 853.1007, 836.1971, 739.9811, 786.1134, ~
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(gapminder)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##         country        continent        year         lifeExp     
+##  Afghanistan:  12   Africa  :624   Min.   :1952   Min.   :23.60  
+##  Albania    :  12   Americas:300   1st Qu.:1966   1st Qu.:48.20  
+##  Algeria    :  12   Asia    :396   Median :1980   Median :60.71  
+##  Angola     :  12   Europe  :360   Mean   :1980   Mean   :59.47  
+##  Argentina  :  12   Oceania : 24   3rd Qu.:1993   3rd Qu.:70.85  
+##  Australia  :  12                  Max.   :2007   Max.   :82.60  
+##  (Other)    :1632                                                
+##       pop              gdpPercap       
+##  Min.   :6.001e+04   Min.   :   241.2  
+##  1st Qu.:2.794e+06   1st Qu.:  1202.1  
+##  Median :7.024e+06   Median :  3531.8  
+##  Mean   :2.960e+07   Mean   :  7215.3  
+##  3rd Qu.:1.959e+07   3rd Qu.:  9325.5  
+##  Max.   :1.319e+09   Max.   :113523.1  
+## 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{unique}\NormalTok{(gapminder}\SpecialCharTok{$}\NormalTok{country)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   [1] Afghanistan              Albania                  Algeria                 
+##   [4] Angola                   Argentina                Australia               
+##   [7] Austria                  Bahrain                  Bangladesh              
+##  [10] Belgium                  Benin                    Bolivia                 
+##  [13] Bosnia and Herzegovina   Botswana                 Brazil                  
+##  [16] Bulgaria                 Burkina Faso             Burundi                 
+##  [19] Cambodia                 Cameroon                 Canada                  
+##  [22] Central African Republic Chad                     Chile                   
+##  [25] China                    Colombia                 Comoros                 
+##  [28] Congo, Dem. Rep.         Congo, Rep.              Costa Rica              
+##  [31] Cote d'Ivoire            Croatia                  Cuba                    
+##  [34] Czech Republic           Denmark                  Djibouti                
+##  [37] Dominican Republic       Ecuador                  Egypt                   
+##  [40] El Salvador              Equatorial Guinea        Eritrea                 
+##  [43] Ethiopia                 Finland                  France                  
+##  [46] Gabon                    Gambia                   Germany                 
+##  [49] Ghana                    Greece                   Guatemala               
+##  [52] Guinea                   Guinea-Bissau            Haiti                   
+##  [55] Honduras                 Hong Kong, China         Hungary                 
+##  [58] Iceland                  India                    Indonesia               
+##  [61] Iran                     Iraq                     Ireland                 
+##  [64] Israel                   Italy                    Jamaica                 
+##  [67] Japan                    Jordan                   Kenya                   
+##  [70] Korea, Dem. Rep.         Korea, Rep.              Kuwait                  
+##  [73] Lebanon                  Lesotho                  Liberia                 
+##  [76] Libya                    Madagascar               Malawi                  
+##  [79] Malaysia                 Mali                     Mauritania              
+##  [82] Mauritius                Mexico                   Mongolia                
+##  [85] Montenegro               Morocco                  Mozambique              
+##  [88] Myanmar                  Namibia                  Nepal                   
+##  [91] Netherlands              New Zealand              Nicaragua               
+##  [94] Niger                    Nigeria                  Norway                  
+##  [97] Oman                     Pakistan                 Panama                  
+## [100] Paraguay                 Peru                     Philippines             
+## [103] Poland                   Portugal                 Puerto Rico             
+## [106] Reunion                  Romania                  Rwanda                  
+## [109] Sao Tome and Principe    Saudi Arabia             Senegal                 
+## [112] Serbia                   Sierra Leone             Singapore               
+## [115] Slovak Republic          Slovenia                 Somalia                 
+## [118] South Africa             Spain                    Sri Lanka               
+## [121] Sudan                    Swaziland                Sweden                  
+## [124] Switzerland              Syria                    Taiwan                  
+## [127] Tanzania                 Thailand                 Togo                    
+## [130] Trinidad and Tobago      Tunisia                  Turkey                  
+## [133] Uganda                   United Kingdom           United States           
+## [136] Uruguay                  Venezuela                Vietnam                 
+## [139] West Bank and Gaza       Yemen, Rep.              Zambia                  
+## [142] Zimbabwe                
+## 142 Levels: Afghanistan Albania Algeria Angola Argentina Australia ... Zimbabwe
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{class}\NormalTok{(gapminder}\SpecialCharTok{$}\NormalTok{pop)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "integer"
+\end{verbatim}
+
+\section{Data Cleaning}\label{data-cleaning}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{noMissingData }\OtherTok{\textless{}{-}} \FunctionTok{drop\_na}\NormalTok{(gapminder)}
+\NormalTok{missingData }\OtherTok{\textless{}{-}} \SpecialCharTok{!}\FunctionTok{complete.cases}\NormalTok{(gapminder)}
+\NormalTok{gapminder[missingData,]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 0 x 6
+## # i 6 variables: country <fct>, continent <fct>, year <int>, lifeExp <dbl>,
+## #   pop <int>, gdpPercap <dbl>
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cleaned\_data }\OtherTok{\textless{}{-}}\NormalTok{ gapminder }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{select}\NormalTok{(country, pop, year) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{rename}\NormalTok{(}\AttributeTok{population =}\NormalTok{ pop) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{filter}\NormalTok{(year }\SpecialCharTok{\textgreater{}} \DecValTok{2000} \SpecialCharTok{\&}\NormalTok{ population }\SpecialCharTok{\textgreater{}} \DecValTok{10000000}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{arrange}\NormalTok{(year)}
+\FunctionTok{head}\NormalTok{(cleaned\_data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 6 x 3
+##   country     population  year
+##   <fct>            <int> <int>
+## 1 Afghanistan   25268405  2002
+## 2 Algeria       31287142  2002
+## 3 Angola        10866106  2002
+## 4 Argentina     38331121  2002
+## 5 Australia     19546792  2002
+## 6 Bangladesh   135656790  2002
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sampleData }\OtherTok{\textless{}{-}} \FunctionTok{select}\NormalTok{(gapminder, country, pop, year)}
+\NormalTok{yearly\_data }\OtherTok{\textless{}{-}}\NormalTok{ sampleData }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{pivot\_wider}\NormalTok{(}\AttributeTok{names\_from =}\NormalTok{ year, }\AttributeTok{values\_from =}\NormalTok{ pop)}
+\FunctionTok{View}\NormalTok{(yearly\_data)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Descriptive Statistics}\label{descriptive-statistics}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{population }\OtherTok{\textless{}{-}}\NormalTok{ gapminder}\SpecialCharTok{$}\NormalTok{pop}
+\FunctionTok{summary}\NormalTok{(population)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+## 6.001e+04 2.794e+06 7.024e+06 2.960e+07 1.959e+07 1.319e+09
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{population }\OtherTok{\textless{}{-}}\NormalTok{ population }\SpecialCharTok{/} \DecValTok{1000000}
+\FunctionTok{summary}\NormalTok{(population) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+##    0.060    2.794    7.024   29.601   19.585 1318.683
+\end{verbatim}
+
+\section{Data Visualization}\label{data-visualization}
+
+\subsection{Bar Chart of Continents}\label{bar-chart-of-continents}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data=}\NormalTok{gapminder, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{continent)) }\SpecialCharTok{+} 
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{fill =} \StringTok{"steelblue"}\NormalTok{) }\SpecialCharTok{+} 
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Continents"}\NormalTok{, }\AttributeTok{x=}\StringTok{"Habitable Continents"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{data-exploration-markdown_files/figure-latex/bar-chart-1.pdf}
+
+\subsection{Scatter Plot of Population (African
+Countries)}\label{scatter-plot-of-population-african-countries}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{gapminder }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{filter}\NormalTok{(year }\SpecialCharTok{\textgreater{}} \DecValTok{2006} \SpecialCharTok{\&}\NormalTok{ continent }\SpecialCharTok{==} \StringTok{"Africa"} \SpecialCharTok{\&}\NormalTok{ pop }\SpecialCharTok{\textgreater{}} \DecValTok{40000000}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ country, }\AttributeTok{y =}\NormalTok{ pop}\SpecialCharTok{/}\DecValTok{1000000}\NormalTok{)) }\SpecialCharTok{+} 
+  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{size=}\DecValTok{5}\NormalTok{, }\AttributeTok{alpha =} \FloatTok{0.5}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Population of African Countries"}\NormalTok{, }\AttributeTok{y=}\StringTok{"Population (millions)"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{data-exploration-markdown_files/figure-latex/scatter-plot-1.pdf}
+
+\section{Statistical Analysis}\label{statistical-analysis}
+
+\subsection{T-test (Life Expectancy in Americas vs
+Oceania)}\label{t-test-life-expectancy-in-americas-vs-oceania}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{gapminder }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{filter}\NormalTok{(continent }\SpecialCharTok{\%in\%} \FunctionTok{c}\NormalTok{(}\StringTok{"Americas"}\NormalTok{, }\StringTok{"Oceania"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}  
+  \FunctionTok{t.test}\NormalTok{(lifeExp }\SpecialCharTok{\textasciitilde{}}\NormalTok{ continent, }\AttributeTok{data =}\NormalTok{ .)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Welch Two Sample t-test
+## 
+## data:  lifeExp by continent
+## t = -10.24, df = 49.815, p-value = 7.523e-14
+## alternative hypothesis: true difference in means between group Americas and group Oceania is not equal to 0
+## 95 percent confidence interval:
+##  -11.563985  -7.770958
+## sample estimates:
+## mean in group Americas  mean in group Oceania 
+##               64.65874               74.32621
+\end{verbatim}
+
+\subsection{ANOVA (Life Expectancy Across
+Continents)}\label{anova-life-expectancy-across-continents}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{gapminder }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{filter}\NormalTok{(year }\SpecialCharTok{==} \DecValTok{2007}\NormalTok{, continent }\SpecialCharTok{\%in\%} \FunctionTok{c}\NormalTok{(}\StringTok{"Asia"}\NormalTok{, }\StringTok{"Africa"}\NormalTok{, }\StringTok{"Americas"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{aov}\NormalTok{(lifeExp }\SpecialCharTok{\textasciitilde{}}\NormalTok{ continent, }\AttributeTok{data =}\NormalTok{ .) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summary}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##              Df Sum Sq Mean Sq F value Pr(>F)    
+## continent     2   8195    4098   60.62 <2e-16 ***
+## Residuals   107   7233      68                   
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+\section{Conclusion}\label{conclusion}
+
+This project explored the \texttt{gapminder} dataset, cleaned the data,
+visualized key insights, and performed statistical tests. The findings
+suggest patterns in population distribution and life expectancy
+differences among continents.
+
+\end{document}
