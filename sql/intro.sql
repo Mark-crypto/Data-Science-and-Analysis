@@ -1,30 +1,17 @@
---  tables - users, orders, products, categories, suppliers, shippers, employees, newsletter subscribers
---  columns - id, name, email, phone, address, city, state, zip, country, created_at, updated_at
---  foreign keys - user_id, order_id, product_id, category_id, supplier_id, shipper_id, employee_id, customer_id
---  indexes - user_id, order_id, product_id, category_id, supplier_id, shipper_id, employee_id, customer_id
---  unique - email, phone, address, city, state, zip, country
---  timestamps - created_at, updated_at
---  relationships - one to one, one to many, many to many
-
---  users
 CREATE TABLE users(
     user_id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(200) NOT NULL,
     email VARCHAR(200) UNIQUE NOT NULL,
-    phone VARCHAR(12) UNIQUE NOT NULL,
+    phone VARCHAR(15) UNIQUE NOT NULL,
     address VARCHAR(200) NOT NULL,
     city VARCHAR(50) NOT NULL,
     state VARCHAR(50) NOT NULL,
     zip VARCHAR(10) NOT NULL,
     country VARCHAR(50) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    -- INDEX user_id (id),
-    -- FOREIGN KEY (user_id) REFERENCES orders(user_id)
-)
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP);
 
---Dummy data 
-INSERT INTO users (name, email, phone, address, city, state, zip, country)
+INSERT INTO users(name, email, phone, address, city, state, zip, country)
 VALUES
 ('John Doe', 'johndoe1@example.com', '1234567890', '123 Main St', 'New York', 'NY', '10001', 'USA'),
 ('Jane Smith', 'janesmith2@example.com', '1234567891', '456 Elm St', 'Los Angeles', 'CA', '90001', 'USA'),
@@ -62,11 +49,12 @@ CREATE TABLE orders(
  order_id INT PRIMARY KEY AUTO_INCREMENT,
  user_id INT,
  order_date DATETIME NOT NULL,
- ship_date DATETIME NOT NULL,
+ ship_date DATETIME ,
  status ENUM('pending', 'shipped', 'delivered') NOT NULL,
  created_at TIMESTAMP DEFAULT  CURRENT_TIMESTAMP,
  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-)
+ CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(user_id));
+ 
 -- Dummy data
 INSERT INTO orders (user_id, order_date, ship_date, status) 
 VALUES
@@ -111,10 +99,10 @@ CREATE TABLE PRODUCTS(
     supplier_id INT,
     status ENUM('in_stock', 'out_of_stock') NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-)
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP);
 
--- Dummy dataINSERT INTO PRODUCTS (name, description, price, category_id, supplier_id, status) 
+-- Dummy data
+INSERT INTO PRODUCTS (name, description, price, category_id, supplier_id, status) 
 VALUES
 ('Laptop', 'High-performance laptop with 16GB RAM and 512GB SSD', 1200.00, 1, 1, 'in_stock'),
 ('Smartphone', 'Latest smartphone with AMOLED display and 5G', 850.00, 2, 2, 'in_stock'),
@@ -153,8 +141,8 @@ CREATE TABLE categories(
     name VARCHAR(100) NOT NULL,
     description TEXT NOT NULL,
     CREATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-)
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP);
+    
 --  dummy data
 INSERT INTO categories (name, description) VALUES
 ('Electronics', 'Devices and gadgets including laptops, smartphones, and accessories'),
@@ -178,7 +166,7 @@ CREATE TABLE suppliers(
     supplier_id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(100) NOT NULL,
     email VARCHAR(200) UNIQUE NOT NULL,
-    phone VARCHAR(12) UNIQUE NOT NULL,
+    phone VARCHAR(15) UNIQUE NOT NULL,
     products_supplies TEXT NOT NULL,
     address VARCHAR(200) NOT NULL,
     city VARCHAR(50) NOT NULL,
@@ -186,8 +174,8 @@ CREATE TABLE suppliers(
     zip VARCHAR(10) NOT NULL,
     country VARCHAR(50) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-)
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP);
+    
 --  dummy data
 INSERT INTO suppliers (name, email, phone, products_supplies, address, city, state, zip, country) VALUES
 ('TechWorld Distributors', 'contact@techworld.com', '1234567890', 'Laptops, Smartphones, Accessories', '123 Tech Street', 'New York', 'NY', '10001', 'USA'),
@@ -211,15 +199,14 @@ CREATE TABLE shippers(
     shipper_id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(100) NOT NULL,
     email VARCHAR(200) UNIQUE NOT NULL,
-    phone VARCHAR(12) UNIQUE NOT NULL,
+    phone VARCHAR(15) UNIQUE NOT NULL,
     address VARCHAR(200) NOT NULL,
     city VARCHAR(50) NOT NULL,
     state VARCHAR(50) NOT NULL,
     zip VARCHAR(10) NOT NULL,
     country VARCHAR(50) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-)
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP);
 
 --  dummy data
 INSERT INTO shippers (name, email, phone, address, city, state, zip, country) VALUES
@@ -240,7 +227,7 @@ CREATE TABLE employees(
     employee_number VARCHAR(50) UNIQUE NOT NULL,
     name VARCHAR(100) NOT NULL,
     email VARCHAR(200) UNIQUE NOT NULL,
-    phone VARCHAR(12) UNIQUE NOT NULL,
+    phone VARCHAR(15) UNIQUE NOT NULL,
     role VARCHAR(50) NOT NULL,
     date_enrolled DATE NOT NULL,
     salary DECIMAL(10,2) NOT NULL,
@@ -253,8 +240,7 @@ CREATE TABLE employees(
     country VARCHAR(50) NOT NULL,
     status ENUM('active' ,'inactive', 'on_leave') NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-)
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP);
 
 --  dummy data
 INSERT INTO employees (employee_number, name, email, phone, role, date_enrolled, salary, branch, national_id, address, city, state, zip, country, status) VALUES
@@ -274,13 +260,12 @@ INSERT INTO employees (employee_number, name, email, phone, role, date_enrolled,
 ('EMP014', 'Mia Hernandez', 'miahernandez@email.com', '2200334455', 'Operations Manager', '2018-05-07', 95000.00, 'San Diego', '100014', '121 Poplar St', 'San Diego', 'CA', '92101', 'USA', 'inactive'),
 ('EMP015', 'Benjamin Lewis', 'benjaminlewis@email.com', '3300445566', 'Supply Chain Manager', '2017-03-12', 97000.00, 'Phoenix', '100015', '131 Magnolia St', 'Phoenix', 'AZ', '85001', 'USA', 'active');
 
----  newsletter subscribers
+--  newsletter subscribers
 CREATE TABLE newsletter_subscribers(
     subscriber_id INT PRIMARY KEY AUTO_INCREMENT,
     email VARCHAR(200) UNIQUE NOT NULL,
     name VARCHAR(100) NOT NULL,
-    subscribed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-)  
+    subscribed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);  
 
 INSERT INTO newsletter_subscribers (email, name) VALUES
 ('alice.johnson@email.com', 'Alice Johnson'),
@@ -303,3 +288,6 @@ INSERT INTO newsletter_subscribers (email, name) VALUES
 ('ryan.adams@email.com', 'Ryan Adams'),
 ('sophia.hill@email.com', 'Sophia Hill'),
 ('tyler.baker@email.com', 'Tyler Baker');
+
+ALTER TABLE orders
+ADD CONSTRAINT chk_ship_date CHECK (order_date < ship_date);
