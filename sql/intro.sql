@@ -54,6 +54,11 @@ CREATE TABLE orders(
  created_at TIMESTAMP DEFAULT  CURRENT_TIMESTAMP,
  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
  CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(user_id));
+
+ -- Add a new foreign key referencing customers
+ALTER TABLE orders
+ADD CONSTRAINT fk_customer
+FOREIGN KEY (user_id) REFERENCES customers(customer_id);
  
 -- Dummy data
 INSERT INTO orders (user_id, order_date, ship_date, status) 
@@ -291,3 +296,50 @@ INSERT INTO newsletter_subscribers (email, name) VALUES
 
 ALTER TABLE orders
 ADD CONSTRAINT chk_ship_date CHECK (order_date < ship_date);
+
+-- customers
+CREATE TABLE customers (
+    customer_id INT PRIMARY KEY AUTO_INCREMENT,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    phone VARCHAR(15),
+    address VARCHAR(255),
+    city VARCHAR(50),
+    country VARCHAR(50),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+INSERT INTO customers (first_name, last_name, email, phone, address, city, country)
+VALUES
+('John', 'Doe', 'john.doe@gmail.com', '1234567890', '123 Main St', 'Nairobi', 'Kenya'),
+('Jane', 'Smith', 'jane.smith@yahoo.com', '9876543210', '456 Elm St', 'Mombasa', 'Kenya'),
+('Robert', 'Brown', 'robert.brown@hotmail.com', '0723456789', '789 Pine St', 'Kisumu', 'Kenya'),
+('Emily', 'Johnson', 'emily.johnson@gmail.com', '0711223344', '321 Maple Ave', 'Nakuru', 'Kenya'),
+('Michael', 'Davis', 'michael.davis@yahoo.com', '0788564321', '654 Oak St', 'Eldoret', 'Kenya'),
+('Olivia', 'Wilson', 'olivia.wilson@gmail.com', '0722334455', '890 Cedar Rd', 'Thika', 'Kenya'),
+('William', 'Anderson', 'will.anderson@gmail.com', '0799887766', '567 Birch St', 'Meru', 'Kenya'),
+('Sophia', 'Thomas', 'sophia.thomas@yahoo.com', '0700112233', '432 Aspen Dr', 'Kakamega', 'Kenya'),
+('James', 'Moore', 'james.moore@gmail.com', '0734455667', '765 Walnut St', 'Machakos', 'Kenya'),
+('Isabella', 'Taylor', 'isabella.taylor@gmail.com', '0711345678', '111 Spruce Ave', 'Nairobi', 'Kenya'),
+('David', 'Martin', 'david.martin@yahoo.com', '0744455666', '222 Willow Rd', 'Mombasa', 'Kenya'),
+('Mia', 'Lee', 'mia.lee@gmail.com', '0722665544', '333 Chestnut St', 'Kisumu', 'Kenya'),
+('Daniel', 'White', 'daniel.white@gmail.com', '0767788990', '444 Fir Ln', 'Nakuru', 'Kenya'),
+('Charlotte', 'Harris', 'charlotte.harris@gmail.com', '0711223345', '555 Redwood Rd', 'Thika', 'Kenya'),
+('Matthew', 'Clark', 'matthew.clark@gmail.com', '0733445566', '666 Cypress Ave', 'Eldoret', 'Kenya'),
+('Abigail', 'Lewis', 'abigail.lewis@yahoo.com', '0711887766', '777 Sycamore St', 'Meru', 'Kenya'),
+('Ethan', 'Walker', 'ethan.walker@gmail.com', '0722998877', '888 Poplar Rd', 'Nairobi', 'Kenya'),
+('Amelia', 'Hall', 'amelia.hall@gmail.com', '0799441122', '999 Maple St', 'Kisumu', 'Kenya'),
+('Liam', 'Allen', 'liam.allen@hotmail.com', '0788992233', '123 Cedar Ln', 'Nakuru', 'Kenya'),
+('Evelyn', 'Scott', 'evelyn.scott@gmail.com', '0700223344', '456 Pine Rd', 'Thika', 'Kenya'),
+('Mason', 'King', 'mason.king@yahoo.com', '0733556677', '789 Walnut Ln', 'Mombasa', 'Kenya'),
+('Harper', 'Green', 'harper.green@gmail.com', '0722885566', '321 Fir Rd', 'Eldoret', 'Kenya'),
+('Noah', 'Baker', 'noah.baker@gmail.com', '0711667788', '654 Cypress Ln', 'Kakamega', 'Kenya'),
+('Ava', 'Nelson', 'ava.nelson@yahoo.com', '0744778899', '987 Oak Rd', 'Machakos', 'Kenya'),
+('Oliver', 'Carter', 'oliver.carter@gmail.com', '0799112233', '543 Birch Ln', 'Meru', 'Kenya'),
+('Lily', 'Perez', 'lily.perez@gmail.com', '0711445566', '876 Spruce Ave', 'Kisumu', 'Kenya'),
+('Elijah', 'Roberts', 'elijah.roberts@gmail.com', '0722556677', '112 Maple St', 'Nairobi', 'Kenya'),
+('Emily', 'Turner', 'emily.turner@gmail.com', '0700334455', '334 Cedar Ln', 'Mombasa', 'Kenya'),
+('Benjamin', 'Phillips', 'ben.phillips@gmail.com', '0733778899', '778 Walnut Rd', 'Thika', 'Kenya'),
+('Sophia', 'Adams', 'sophia.adams@gmail.com', '0722003344', '567 Fir Ln', 'Nakuru', 'Kenya');
