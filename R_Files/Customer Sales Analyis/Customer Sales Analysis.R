@@ -29,3 +29,7 @@ glimpse(sales_data)
 
 #Exploratory Data Analysis
 summary(sales_data$Sales)
+ggplot(data = sales_data, mapping = aes(x= Category, y= Sales )) +
+  geom_boxplot(fill="steelblue", width=0.8) +
+  labs(title = "Sales per Product Category", xlab ="Categories", ylab ="Sales")+ 
+  theme_minimal()
