@@ -34,3 +34,16 @@ SELECT location FROM layoffs_staging2 ORDER BY 1;
 SELECT country FROM layoffs_staging2 ORDER BY 1;
 SELECT DISTINCT country, TRIM(TRAILING "." FROM country) from layoffs_staging2 ORDER BY 1;
 UPDATE layoffs_staging2 set country = TRIM(TRAILING "." FROM country) WHERE country LIKE "United States%";
+
+SELECT `date`, str_to_date(`date`, '%m/%d/%Y') FROM layoffs_staging2; 
+UPDATE layoffs_staging2 SET `date` = str_to_date(`date`, '%m/%d/%Y');
+SELECT * FROM layoffs_staging2;
+ALTER TABLE layoffs_staging2 
+MODIFY COLUMN `date` DATE;
+
+SELECT data_type FROM information_schema.columns
+where TABLE_NAME = 'layoffs_staging2' 
+AND COLUMN_NAME = 'date';
+
+SELECT *
+FROM layoffs_staging2 WHERE total_laid_off < 1;
