@@ -47,3 +47,44 @@ AND COLUMN_NAME = 'date';
 
 SELECT *
 FROM layoffs_staging2 WHERE total_laid_off < 1;
+
+SELECT *
+FROM layoffs_staging2 
+WHERE total_laid_off < 1
+AND percentage_laid_off <= 0;
+
+SELECT *
+FROM layoffs_staging2 
+WHERE industry = "";
+
+SELECT *
+FROM layoffs_staging2 t1
+JOIN layoffs_staging2 t2 ON t1.company = t2.company
+AND t1.location = t2.location
+WHERE t1.industry = "" 
+AND t2.industry != ""
+
+UPDATE layoffs_staging2 t1
+JOIN layoffs_staging2 t2 ON t1.company = t2.company
+SET t1.industry = t2.industry
+WHERE t1.industry = "" 
+AND t2.industry != ""
+
+SELECT *
+FROM layoffs_staging2 t1
+JOIN layoffs_staging2 t2 ON t1.company = t2.company
+AND t1.location = t2.location
+WHERE t1.company = "Airbnb";
+
+SELECT *
+FROM layoffs_staging2 WHERE company LIKE "Bally%";
+
+DELETE
+FROM layoffs_staging2 
+WHERE total_laid_off < 1
+AND percentage_laid_off <= 0;
+
+ALTER TABLE layoffs_staging2 
+DROP COLUMN row_num;
+
+select * from layoffs_staging2;
