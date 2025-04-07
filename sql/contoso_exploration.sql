@@ -47,3 +47,23 @@ LEFT JOIN customer c ON s.customerkey = c.customerkey
 WHERE orderdate BETWEEN '2023-01-01' AND '2023-12-31'
 GROUP BY orderdate
 ORDER BY orderdate;
+
+SELECT p.categoryname,
+SUM(CASE WHEN s.orderdate BETWEEN '2022-01-01' AND '2022-12-31' THEN s.quantity * s.netprice * s.exchangerate ELSE 0 END) 
+AS total_net_revenue_2022 ,
+SUM(CASE WHEN s.orderdate BETWEEN '2023-01-01' AND '2023-12-31' THEN s.quantity * s.netprice * s.exchangerate ELSE 0 END) 
+AS total_net_revenue_2023
+FROM sales s 
+LEFT JOIN product p ON p.productkey = s.productkey
+GROUP BY p.categoryname
+ORDER BY p.categoryname;
+
+SELECT p.categoryname,
+AVG(CASE WHEN s.orderdate BETWEEN '2022-01-01' AND '2022-12-31' THEN s.quantity * s.netprice * s.exchangerate ELSE 0 END) 
+AS average_net_revenue_2022 ,
+AVG(CASE WHEN s.orderdate BETWEEN '2023-01-01' AND '2023-12-31' THEN s.quantity * s.netprice * s.exchangerate ELSE 0 END) 
+AS average_net_revenue_2023
+FROM sales s 
+LEFT JOIN product p ON p.productkey = s.productkey
+GROUP BY p.categoryname
+ORDER BY p.categoryname;

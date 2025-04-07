@@ -88,3 +88,21 @@ ALTER TABLE layoffs_staging2
 DROP COLUMN row_num;
 
 select * from layoffs_staging2;
+
+
+-- Exploratory Data Analysis
+SELECT company, SUM(total_laid_off) AS sum_1
+FROM layoffs_staging2 
+GROUP BY company
+ORDER BY sum_1 DESC;
+
+SELECT MAX(date), MIN(date) FROM layoffs_staging2
+
+SELECT industry, SUM(total_laid_off)
+FROM layoffs_staging2
+GROUP BY industry
+ORDER BY 2 DESC;
+
+SELECT * FROM layoffs_staging2 
+WHERE percentage_laid_off = 1
+ORDER BY funds_raised_millions DESC;
