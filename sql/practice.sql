@@ -26,3 +26,20 @@ ORDER BY p.page_id;
 SELECT part, assembly_step
 FROM parts_assembly
 WHERE finish_date IS NULL;
+
+--Question Five
+SELECT 
+(SELECT COUNT(*) FROM viewership WHERE device_type = 'laptop')
+AS laptop_views,
+(SELECT COUNT(*) FROM viewership WHERE device_type IN ('tablet', 'phone'))
+AS mobile_views
+FROM viewership
+GROUP BY laptop_views, mobile_views;
+
+--Question Six
+SELECT user_id, 
+(extract (day from (max(post_date) - min(post_date)))) 
+AS days_between 
+from posts
+group by user_id
+order by days_between desc;
