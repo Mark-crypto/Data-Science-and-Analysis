@@ -67,3 +67,41 @@ FROM sales s
 LEFT JOIN product p ON p.productkey = s.productkey
 GROUP BY p.categoryname
 ORDER BY p.categoryname;
+
+WITH median_value AS(
+  SELECT
+PERCENTILE_CONT(0.5) WITHIN GROUP(ORDER BY (s.quantity * s.netprice * s.exchangerate)) AS median
+FROM sales s 
+WHERE orderdate BETWEEN '2022-01-01' AND '2023-12-31'
+)
+
+
+SELECT orderdate,quantity, netprice, 
+(CASE WHEN quantity >= 2 AND netprice >= 100 THEN 'Multiple High value order'
+WHEN netprice >= 100 THEN 'High value order'
+WHEN quantity >= 2 THEN 'Multiple Standard Items'
+ELSE 'Single Standard order' 
+END
+) 
+AS order_type 
+FROM sales
+LIMIT 10;
+
+SELECT p.categoryname,
+SUM(CASE WHEN (s.quantity * s.netprice * s.exchangerate) < mv.median 
+ AND  s.orderdate BETWEEN '2022-01-01' AND '2022-12-31'
+ THEN (s.quantity * s.netprice * s.exchangerate)  END) AS y2022_low_net_revenue,
+SUM(CASE WHEN (s.quantity * s.netprice * s.exchangerate) >= mv.median 
+ AND s.orderdate BETWEEN '2022-01-01' AND '2022-12-31'
+ THEN (s.quantity * s.netprice * s.exchangerate)  END) AS y2022high_net_revenue,
+SUM(CASE WHEN (s.quantity * s.netprice * s.exchangerate) < mv.median 
+ AND  s.orderdate BETWEEN '2023-01-01' AND '2023-12-31'
+ THEN (s.quantity * s.netprice * s.exchangerate)  END) AS y2023_low_net_revenue,
+SUM(CASE WHEN (s.quantity * s.netprice * s.exchangerate) >= mv.median 
+ AND s.orderdate BETWEEN '2023-01-01' AND '2023-12-31'
+ THEN (s.quantity * s.netprice * s.exchangerate)  END) AS y2023high_net_revenue
+FROM sales s 
+LEFT JOIN product p ON p.productkey = s.productkey,
+median_value mv
+GROUP BY p.categoryname
+ORDER BY p.categoryname;
