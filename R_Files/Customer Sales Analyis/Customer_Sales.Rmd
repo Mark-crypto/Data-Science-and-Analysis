@@ -1,0 +1,137 @@
+---
+output:
+  word_document: default
+  html_document: default
+---
+
+```markdown
+---
+title: "Sales Analysis and Forecasting"
+author: "Mark Abong'o"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Installing and Loading Packages
+
+```{r packages, message=FALSE, warning=FALSE}
+# install.packages("forecast") # Uncomment if not already installed
+
+library(ggplot2)
+library(tidyverse)
+library(readr)
+library(forecast)
+```
+
+## Loading Sales Data
+
+```{r load-data}
+sales_data <- read_csv("D:/Documents/train.csv")  # Make sure path is correct
+```
+
+## Data Exploration
+
+```{r explore}
+dim(sales_data)
+head(sales_data)
+names(sales_data)
+glimpse(sales_data)
+```
+
+## 🧹 Data Cleaning
+
+```{r clean-data}
+missingValues <- !complete.cases(sales_data)
+sales_data[missingValues,]
+sales_data <- na.omit(sales_data)
+
+# Confirm missing row (2235) is gone
+sales_data[2235, 1]
+```
+
+## Date Conversion
+
+```{r date-formatting}
+date_columns <- grep("Date", names(sales_data), value = TRUE, ignore.case = TRUE)
+date_columns
+
+sales_data$`Order Date` <- as.Date(sales_data$`Order Date`, format = "%d/%m/%Y")
+sales_data$`Ship Date` <- as.Date(sales_data$`Ship Date`, format = "%d/%m/%Y")
+
+glimpse(sales_data)
+```
+
+## Exploratory Data Analysis
+
+### Summary of Sales
+
+```{r summary}
+summary(sales_data$Sales)
+```
+
+### Boxplot: Sales per Product Category
+
+```{r boxplot-category}
+ggplot(sales_data, aes(x = Category, y = Sales)) +
+  geom_boxplot(fill = "steelblue", width = 0.8, notch = TRUE, outlier.colour = "red", outlier.shape = 8) +
+  labs(title = "Sales per Product Category", x = "Categories", y = "Sales") +
+  theme_minimal()
+```
+
+### Line Chart: Total Sales Over Time
+
+```{r sales-over-time}
+ggplot(sales_data, aes(x = `Order Date`, y = Sales)) +
+  geom_line(color = "steelblue") +
+  labs(title = "Total Sales Over Time", x = "Date", y = "Sales")
+```
+
+### Bar Chart: Top Selling Categories
+
+```{r top-categories}
+ggplot(sales_data, aes(x = Category, y = Sales, fill = Category)) +
+  geom_bar(stat = "identity", width = 0.5) +
+  scale_fill_manual(values = c("red", "blue", "green")) +
+  labs(title = "Top Selling Categories", x = "Categories", y = "Sales") +
+  theme_minimal()
+```
+
+### Bar Chart: Sales by Region
+
+```{r sales-by-region}
+ggplot(sales_data, aes(x = Region, y = Sales, fill = Region)) +
+  geom_bar(stat = "identity", width = 0.5) +
+  labs(title = "Sales by Region", x = "Regions", y = "Sales") +
+  coord_flip() +
+  theme_minimal()
+```
+
+### Line Chart: Customer Purchase Frequency
+
+```{r customer-frequency}
+ggplot(sales_data, aes(x = `Customer ID`, y = Sales)) +
+  geom_line(color = "steelblue") +
+  labs(title = "Customer Purchase Frequency", x = "Customer ID", y = "Sales") +
+  theme_classic()
+```
+
+## Forecasting with ARIMA
+
+```{r forecasting}
+sales_ts <- ts(sales_data$Sales, start = c(2020, 1), frequency = 12)
+arima_model <- auto.arima(sales_ts)
+forecasted_sales <- forecast(arima_model, h = 12)
+
+autoplot(forecasted_sales) + labs(title = "Sales Forecast for Next 12 Months")
+```
+
+## Export Cleaned Data
+
+```{r save-data}
+write_csv(sales_data, "cleaned_customer_sales.csv")
+```
+```

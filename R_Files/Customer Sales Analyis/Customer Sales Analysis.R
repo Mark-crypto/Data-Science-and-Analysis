@@ -1,7 +1,9 @@
+install.packages("forecast")
 # Loading necessary libraries
 library(ggplot2)
 library(tidyverse)
 library(readr)
+library(forecast)
 sales_data <- read_csv("D:Documents/train.csv")
 
 # Data Exploration
@@ -56,3 +58,20 @@ ggplot(data= sales_data, mapping = aes( x = `Customer ID`, y = Sales)) +
   geom_line(color="steelblue") +
   labs(title ="Customer Purchase Frequency", xlab= "Customer ID", y= "Sales") +
   theme_classic()
+
+# Forecasting and prediction
+# Convert data to time series
+sales_ts <- ts(sales_data$Sales, start=c(2020,1), frequency=12)
+
+# Fit ARIMA model
+arima_model <- auto.arima(sales_ts)
+forecasted_sales <- forecast(arima_model, h=12)
+
+# Plot forecast
+autoplot(forecasted_sales) + labs(title="Sales Forecast for Next 12 Months")
+
+write_csv(sales_data,"cleaned_customer_sales.csv")
+
+
+
+
