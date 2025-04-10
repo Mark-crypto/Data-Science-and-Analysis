@@ -105,3 +105,23 @@ LEFT JOIN product p ON p.productkey = s.productkey,
 median_value mv
 GROUP BY p.categoryname
 ORDER BY p.categoryname;
+
+WITH percentiles AS (
+SELECT 
+  PERCENTILE_CONT(.25) WITHIN GROUP (ORDER BY (s.quantity * s.netprice * s.exchangerate) ) AS rev_25thpercentile,
+  PERCENTILE_CONT(.75) WITHIN GROUP (ORDER BY (s.quantity * s.netprice * s.exchangerate) ) AS rev_75thpercentile
+  FROM sales s
+  WHERE orderdate BETWEEN '2022-01-01' AND '2023-12-31'
+)
+SELECT p.categoryname AS category,
+SUM(s.quantity * s.netprice * s.exchangerate) AS total_revenue,
+  CASE
+    WHEN (s.quantity * s.netprice * s.exchangerate) <= prct.rev_25thpercentile THEN '3-Low'
+    WHEN (s.quantity * s.netprice * s.exchangerate) >= prct.rev_75thpercentile THEN '1-High'
+    ELSE '2-Medium'
+  END AS revenue_tier
+FROM sales s 
+LEFT JOIN product p ON p.productkey = s.productkey,
+percentiles prct
+GROUP BY p.categoryname, revenue_tier
+ORDER BY p.categoryname, revenue_tier;

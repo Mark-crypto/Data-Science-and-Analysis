@@ -52,3 +52,14 @@ AND (EXTRACT(YEAR FROM sent_date)) = 2022
 GROUP BY sender_id
 ORDER BY message_count DESC
 LIMIT 2;
+
+--Question 8
+WITH company_number AS (
+select COUNT(company_id) AS company, 
+title, 
+company_id
+from job_listings
+GROUP BY title, company_id
+HAVING COUNT(company_id) > 1
+)
+SELECT COUNT (company) AS duplicate_companies FROM company_number
