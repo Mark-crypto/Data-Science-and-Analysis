@@ -125,3 +125,27 @@ LEFT JOIN product p ON p.productkey = s.productkey,
 percentiles prct
 GROUP BY p.categoryname, revenue_tier
 ORDER BY p.categoryname, revenue_tier;
+
+SELECT  
+DATE_TRUNC('month', orderdate)::date AS order_month,
+SUM(quantity * netprice * exchangerate) AS total_revenue,
+COUNT(DISTINCT customerkey) AS total_unique_customers
+FROM sales 
+GROUP BY order_month
+
+SELECT 
+DATE_PART('month', orderdate) AS order_month,
+DATE_PART('year', orderdate) AS order_year,
+DATE_PART('day', orderdate) AS order_day
+FROM sales
+ORDER BY RANDOM()
+LIMIT 10;
+
+SELECT  
+EXTRACT(MONTH FROM orderdate) AS order_month,
+EXTRACT(YEAR FROM orderdate) AS order_year,
+SUM(quantity * netprice * exchangerate) AS total_revenue,
+COUNT(DISTINCT customerkey) AS total_unique_customers
+FROM sales 
+GROUP BY order_month, order_year
+ORDER BY RANDOM()
