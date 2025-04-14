@@ -149,3 +149,17 @@ COUNT(DISTINCT customerkey) AS total_unique_customers
 FROM sales 
 GROUP BY order_month, order_year
 ORDER BY RANDOM()
+
+SELECT CURRENT_DATE, 
+orderdate
+FROM sales 
+WHERE 
+orderdate >= CURRENT_DATE - INTERVAL '5 years'
+
+SELECT DATE_PART('year', orderdate) as order_year,
+ROUND(AVG(EXTRACT(DAY FROM AGE(deliverydate, orderdate))),2) as avg_processing_time,
+CAST(SUM(quantity * netprice * exchangerate) AS INTEGER) AS net_revenue
+FROM sales
+WHERE orderdate >= CURRENT_DATE - INTERVAL '5 YEARS'
+GROUP BY order_year
+ORDER BY order_year 

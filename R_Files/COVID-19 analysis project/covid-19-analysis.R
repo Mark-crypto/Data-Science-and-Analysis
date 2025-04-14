@@ -28,5 +28,33 @@ glimpse(covid_data)
 covid_data$date <- as.Date(covid_data$date, format = "%Y-%m-%d")
 complete_covid_data <- covid_data[!is.na(covid_data$total_cases),]
 head(complete_covid_data,5)
+tail(complete_covid_data)
 filter(complete_covid_data, complete_covid_data$country == "Kenya")
+
+#Data visualizations
+# Deaths in East Africa
+complete_covid_data %>% 
+  filter(country %in% c('Kenya','Uganda', 'Tanzania', 'Rwanda', 'Burundi')) %>% 
+  ggplot(aes(x= reorder(country, -total_deaths) , y= total_deaths)) +
+  geom_bar(stat="identity",fill="steelblue")+
+  labs(title="Total COVID Deaths for countries in East Africa", x="East Africa Countries", y="Count of deaths")+
+  scale_y_continuous(labels=comma)
+  theme_minimal()
+  
+# Covid cases in Kenya in 2020 
+complete_covid_data %>% 
+  filter(country == "Kenya") %>% 
+  filter(date >= "2020-01-01" & date<= "2020-12-31") %>% 
+  ggplot(aes(x=date, y=`new_cases`)) +
+    geom_line(linewidth=0.5, color='red') +
+    labs(title="Covid cases in Kenya for 2020", x="", y="New COVID cases")
+
+# distribution of age
+# vaccinations per continent
+# Reproduction rate over time
+# life expectancy per continent
+
+
+
+
 
