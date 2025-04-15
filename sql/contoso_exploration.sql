@@ -163,3 +163,26 @@ FROM sales
 WHERE orderdate >= CURRENT_DATE - INTERVAL '5 YEARS'
 GROUP BY order_year
 ORDER BY order_year 
+
+SELECT *, 
+net_revenue * 100 / daily_net_revenue AS pct_daily_net_rev
+FROM (
+SELECT customerkey, orderdate,
+orderkey * 10 + linenumber as order_line_number,
+(quantity * netprice * exchangerate) AS net_revenue,
+SUM(quantity * netprice * exchangerate) OVER(PARTITION BY orderdate) AS daily_net_revenue
+FROM sales
+) AS rev_by_day
+
+WITH yearly_cohort AS(
+SELECT DISTINCT customerkey, 
+EXTRACT(YEAR FROM MIN(orderdate) OVER(PARTITION BY customerkey)) AS cohort_year
+FROM sales
+)
+SELECT y.cohort_year,
+EXTRACT( YEAR FROM orderdate) AS purchase_year,
+SUM(quantity * netprice * exchangerate) AS net_revenue
+FROM sales s LEFT JOIN
+yearly_cohort y ON s.customerkey = y.customerkey
+GROUP BY cohort_year, purchase_year
+LIMIT 10
