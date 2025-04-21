@@ -186,3 +186,37 @@ FROM sales s LEFT JOIN
 yearly_cohort y ON s.customerkey = y.customerkey
 GROUP BY cohort_year, purchase_year
 LIMIT 10
+
+
+WITH yearly_cohort AS(
+SELECT DISTINCT
+customerkey,
+EXTRACT( YEAR FROM  MIN(orderdate) OVER(PARTITION BY customerkey)) as cohort_year,
+EXTRACT(YEAR FROM orderdate) as purchase_year
+FROM sales
+)
+SELECT DISTINCT
+cohort_year,
+purchase_year,
+COUNT(customerkey) OVER(PARTITION BY purchase_year, cohort_year) AS num_customers
+FROM 
+yearly_cohort
+ORDER BY 
+cohort_year, 
+purchase_year
+
+WITH customer_orders AS(
+SELECT customerkey,
+quantity * netprice * exchangerate AS order_value,
+COUNT(*) OVER (PARTITION BY customerkey ) AS total_orders
+FROM sales
+)
+SELECT 
+customerkey, 
+AVG(order_value),
+total_orders
+FROM 
+customer_orders
+GROUP BY 
+customerkey, 
+total_orders
