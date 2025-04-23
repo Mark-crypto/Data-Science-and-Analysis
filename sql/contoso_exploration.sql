@@ -220,3 +220,23 @@ customer_orders
 GROUP BY 
 customerkey, 
 total_orders
+
+SELECT customerkey,
+COUNT(*) AS total_orders,
+ROW_NUMBER() OVER(ORDER BY COUNT(*) DESC) AS total_orders_row_num,
+RANK() OVER(ORDER BY COUNT(*) DESC) AS total_orders_rank,
+DENSE_RANK() OVER(ORDER BY COUNT(*) DESC) AS total_orders_dense_rank
+FROM sales
+GROUP BY customerkey
+LIMIT 10
+
+WITH monthly_revenue AS (
+SELECT 
+TO_CHAR(orderdate, 'YYYY-MM') AS month,
+SUM(quantity * netprice * exchangerate) AS net_revenue
+FROM sales
+WHERE EXTRACT(YEAR FROM orderdate) = 2023
+GROUP BY  month
+ORDER BY month
+)
+SELECT * FROM monthly_revenue
