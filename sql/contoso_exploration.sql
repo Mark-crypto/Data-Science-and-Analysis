@@ -240,3 +240,20 @@ GROUP BY  month
 ORDER BY month
 )
 SELECT * FROM monthly_revenue
+
+WITH monthly_revenue AS (
+SELECT 
+TO_CHAR(orderdate, 'YYYY-MM') AS month,
+SUM(quantity * netprice * exchangerate) AS net_revenue
+FROM sales
+WHERE EXTRACT(YEAR FROM orderdate) = 2023
+GROUP BY month
+ORDER BY month
+)
+SELECT * ,
+FIRST_VALUE(net_revenue) OVER(ORDER BY month),
+LAST_VALUE(net_revenue) OVER(ORDER BY month ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING),
+NTH_VALUE(net_revenue, 3)OVER(ORDER BY month ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING),
+LAG(net_revenue) OVER(ORDER BY month),
+LEAD(net_revenue) OVER(ORDER BY month)
+FROM monthly_revenue
